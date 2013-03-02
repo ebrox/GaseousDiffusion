@@ -31,7 +31,7 @@ public class GasChamber extends PApplet {
      */
     @Override
     public void setup() {
-        frameRate(50);  // AEB another way to change the speed of particles,
+        frameRate(90);  // AEB another way to change the speed of particles,
                           // may be usefull in figuring out the particles
                           // bouncing beyond Gate Line after a minute or two in the box
         size(775, 200);
