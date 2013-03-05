@@ -1,7 +1,6 @@
 
 /*
  * 
- * AEB Testing with a comment of my own.
  */
 package layout;
 
