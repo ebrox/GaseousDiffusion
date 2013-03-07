@@ -6,6 +6,9 @@
  */
 package layout;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
 import processing.core.PApplet;
 import processing.core.PFont;
 
@@ -24,19 +27,34 @@ public class GasChamber extends PApplet {
     PFont myFont, delinFont;
     boolean bStop;
     float vel1, vel2;
-        
+    int fRate = 85;
+    Timer timer;    
+    int p1, p2;
+
 
     /**
      * method to create size of sketch and particles
      */
     @Override
     public void setup() {
-        frameRate(120);  // AEB another way to change the speed of particles,
-                          // may be usefull in figuring out the particles
-                          // bouncing beyond Gate Line after a minute or two in the box
+        frameRate(fRate);  
         size(775, 200);
         myFont = createFont("sans-serif", 24);
         delinFont = createFont("sans-serif", 14);
+        
+        /** AEB Timer to reset the particles every minute if the gate is closed
+        * this is a work around for the particles leaking out of the gate box
+        * after a couple minutes */
+//         timer = new Timer(60000, new ActionListener(){
+//             @Override
+//             public void actionPerformed(ActionEvent e){
+//                 if(!gateOpen){
+//                     particleFill(p1, p2);
+//                 }
+//             }
+//         });
+//         
+//         timer.start();
     }
 
     /**
@@ -44,8 +62,7 @@ public class GasChamber extends PApplet {
      */
     @Override
     public void draw() {
-//        System.out.println(frameRate);
-        
+        frameRate(fRate);
         int gateX = 200;
         int gateY = 100;
         int finishX = 750;
@@ -56,7 +73,6 @@ public class GasChamber extends PApplet {
         background(170);
 
         if (!gateOpen) {
-//            setBounds(20, 20, 200, 200);
             line(200, 0, 200, height);
             line(200, 25, 225, 25);
             line(225, 25, 225, 175);
@@ -72,10 +88,7 @@ public class GasChamber extends PApplet {
             popMatrix();
         }
         
-        if (gateOpen){
-//            setBounds(20, 20, 775, 200);
-        }
-        
+                
         textFont(myFont);
         textAlign(CENTER, BOTTOM);
         pushMatrix();
@@ -93,13 +106,13 @@ public class GasChamber extends PApplet {
         text("-------------------------------------------------- 50 Meters ---------------------------------------------------", 265, 0);
         popMatrix();
 
-        for (int i = 0; i < numParts; i++) {
+         for (int i = 0; i < numParts; i++) {
             particles[i].update();
             particles[i].checkEdges();
         }
         stroke(0);
         fill(175);
-
+        
         for (int j = 0; j < particles.length; j++) {
             x = particles[j].location.x;
             y = particles[j].location.y;
@@ -134,12 +147,13 @@ public class GasChamber extends PApplet {
      * simulation
      */
     public void particleFill(int part1, int part2) {
+        
+        this.p1 = part1;
+        this.p2 = part2;
 
-//        float vel1 = 0;
         float diam1 = 0;
-//        float vel2 = 0;
         float diam2 = 0;
-        float rate = 2.5f;
+        float rate = 1f;
 
         switch (part1) {
             case 0:
@@ -153,8 +167,7 @@ public class GasChamber extends PApplet {
                 color1[2] = 0;
                 break;
             case 1:
-//                vel1 = rate / sqrt(5);
-                vel1 = rate;
+                vel1 = rate / sqrt(5);
                 diam1 = 5;
                 mw1 = 20;
                 time1 = 3.0;
@@ -164,8 +177,7 @@ public class GasChamber extends PApplet {
                 color1[2] = 0;
                 break;
             case 2:
-//                vel1 = rate / sqrt(10);
-                vel1 = rate;
+                vel1 = rate / sqrt(10);
                 diam1 = 6;
                 mw1 = 40;
                 time1 = 6.0;
@@ -187,8 +199,7 @@ public class GasChamber extends PApplet {
                 color2[2] = 255;
                 break;
             case 1:
-//                vel2 = rate / sqrt(5);
-                vel2 = rate;
+                vel2 = rate / sqrt(5);
                 diam2 = 5;
                 mw2 = 20;
                 time2 = 3.0;
@@ -198,19 +209,17 @@ public class GasChamber extends PApplet {
                 color2[2] = 0;
                 break;
             case 2:
-//                vel2 = rate / sqrt(10);
-                vel2 = rate;
+                vel2 = rate / sqrt(10);
                 diam2 = 6;
                 mw2 = 40;
                 time2 = 6.0;
                 gas2 = "Argon";
-                color2[0] = 100;  // dk red
-                color2[1] = 0;
-                color2[2] = 0;
+                color2[0] = 100;  // blue-gray
+                color2[1] = 100;
+                color2[2] = 100;
                 break;
             case 3:
-//                vel2 = rate / sqrt(20);
-                vel2 = rate;
+                vel2 = rate / sqrt(20);
                 diam2 = 9;
                 mw2 = 80;
                 time2 = 9.0;
@@ -220,8 +229,7 @@ public class GasChamber extends PApplet {
                 color2[2] = 255;
                 break;
             case 4:
-//                vel2 = rate / sqrt(16);
-                vel2 = rate;
+                vel2 = rate / sqrt(16);
                 diam2 = 7;
                 mw2 = 64;
                 time2 = 7.0;
@@ -231,8 +239,7 @@ public class GasChamber extends PApplet {
                 color2[2] = 0;
                 break;
             case 5:
-//                vel2 = rate / sqrt(4);
-                vel2 = rate;
+                vel2 = rate / sqrt(4);
                 diam2 = 4;
                 mw2 = 16;
                 time2 = 3.5;
@@ -244,9 +251,9 @@ public class GasChamber extends PApplet {
 
         for (int i = 0; i < numParts; i++) {
             if (i % 2 == 0) {
-                particles[i] = new Element(random(0, 180), random(0, height), vel1, diam1, i, particles);
+                particles[i] = new Element(random(0, 180), random(0, height), random(-vel1, vel1), diam1, vel1, i, particles);
             } else {
-                particles[i] = new Element(random(0, 180), random(0, height), vel2, diam2, i, particles);
+                particles[i] = new Element(random(0, 180), random(0, height), random(-vel2, vel2), diam2, vel2, i, particles);
             }
         }
     }
@@ -258,4 +265,46 @@ public class GasChamber extends PApplet {
         this.gateOpen = gateOpen;
         Element.setGateOpen(gateOpen);
     }
+
+    public int getFRate() {
+        return fRate;
+    }
+
+    public void setFRate(int fRate) {
+        this.fRate = fRate;
+    }
+
+    public float getVel1() {
+        return vel1;
+    }
+
+    public void setVel1(float vel1) {
+        this.vel1 = vel1;
+    }
+
+    public float getVel2() {
+        return vel2;
+    }
+
+    public void setVel2(float vel2) {
+        this.vel2 = vel2;
+    }
+
+    public int getMw1() {
+        return mw1;
+    }
+
+    public void setMw1(int mw1) {
+        this.mw1 = mw1;
+    }
+
+    public int getMw2() {
+        return mw2;
+    }
+
+    public void setMw2(int mw2) {
+        this.mw2 = mw2;
+    }
+    
+    
 }

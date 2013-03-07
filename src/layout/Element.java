@@ -23,13 +23,13 @@ public class Element {
     float width = 775;
     float startBoxWidth = 200;
     Element[] others;
-    static float topSpeed = 2.5f;
     static boolean isWinner = false;
     static boolean secondWinner = false;
     static boolean gateOpen = false;
     static double time1, time2;
     static JTable table;
-
+    float mag;
+    
     Element() {
         location = new PVector(90, 100);
         x = location.x;
@@ -38,7 +38,7 @@ public class Element {
         diameter = 10;
     }
 
-    Element(float w, float h, float vin, float din, int idin, Element[] oin) {
+    Element(float w, float h, float vin, float din, float min, int idin, Element[] oin) {
         location = new PVector(w, h);
         x = location.x;
         y = location.y;
@@ -46,6 +46,7 @@ public class Element {
         diameter = din;
         id = idin;
         others = oin;
+        mag = min;
     }
 
     /**
@@ -55,7 +56,9 @@ public class Element {
 
         location.add(velocity);
 
-        for (int i = id + 1; i < numParts; i++) {
+        for (int i = id + 1; i < numParts; i++) {  //  AEB This is a problem - the reason some of the particles do not collide with some others
+                                                    // it is starting at id and checks all other partices with a larger id number
+                                                    // if the id is greater than 0 then some others get skipped in the check
             float dx = others[i].x - x;
             float dy = others[i].y - y;
             float distance = (float) Math.sqrt(dx * dx + dy * dy);
@@ -68,15 +71,46 @@ public class Element {
                 float ay = (targetY - others[i].y);
                 velocity.x -= ax;
                 velocity.y -= ay;
-//                velocity.limit(5);
                 others[i].velocity.x += ax;
                 others[i].velocity.y += ay; 
-//                others[i].velocity.limit(5);
+                others[i].velocity.normalize();
+                // resets speed back to original speed
+                if(i % 2 != 0){
+                    others[i].velocity.setMag(others[i].mag);
+                }
+                else{
+                    others[i].velocity.setMag(others[i].mag);
+                }
+            }
+        }        
+        
+        for (int i = id - 1; i >= 0; i--) {  //  AEB attemp to fix problem noted above - seems to work, but seems that a simpler one loop method must exist
+            float dx = others[i].x - x;
+            float dy = others[i].y - y;
+            float distance = (float) Math.sqrt(dx * dx + dy * dy);
+            float minDist = others[i].diameter / 2 + diameter / 2;
+            if (distance < minDist) {
+                float angle = (float) Math.atan2(dy, dx);
+                float targetX = (float) (x + Math.cos(angle) * minDist);
+                float targetY = (float) (y + Math.sin(angle) * minDist);
+                float ax = (targetX - others[i].x);
+                float ay = (targetY - others[i].y);
+                velocity.x -= ax;
+                velocity.y -= ay;
+                others[i].velocity.x += ax;
+                others[i].velocity.y += ay; 
+                others[i].velocity.normalize();
+                // resets speed back to original speed
+                if(i % 2 != 0){
+                    others[i].velocity.setMag(others[i].mag);
+                }
+                else{
+                    others[i].velocity.setMag(others[i].mag);
+                }
             }
         }
-        velocity.limit(topSpeed);
+        velocity.setMag(mag);
     }
-
     /**
      * method to check if element is at the edge and reverse it's direction
      */
@@ -124,14 +158,6 @@ public class Element {
 
     public static void setGateOpen(boolean gateO) {
         gateOpen = gateO;
-    }
-
-    public static float getTopSpeed() {
-        return topSpeed;
-    }
-
-    public static void setTopSpeed(float topSpeed) {
-        Element.topSpeed = topSpeed;
     }
 
     public static boolean getIsWinner() {
