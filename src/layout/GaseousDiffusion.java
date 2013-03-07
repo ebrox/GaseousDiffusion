@@ -25,7 +25,7 @@ public class GaseousDiffusion {
     static String rate1, rate2;
     static String mw1, mw2;
     static JTable table;
-
+    static GasChamber bt = new GasChamber();
     
     public static void addComponentsToPane(Container pane) {
         if (RIGHT_TO_LEFT) {
@@ -125,6 +125,7 @@ public class GaseousDiffusion {
                 
                 /**make dialog visible*/
                 dialog.setVisible(true);
+                bt.requestFocus();
             }
         });        
         
@@ -172,6 +173,7 @@ public class GaseousDiffusion {
                 
                 /**make dialog visible*/
                 dialog.setVisible(true);
+                bt.requestFocus();
             }
         });
         
@@ -210,22 +212,18 @@ public class GaseousDiffusion {
         
         boxPanel.setBackground(new Color(12,66,116));
         
-        /**make gaschamber object bt*/
-        final GasChamber bt = new GasChamber();
         
-        /**initialize bt*/
+        /**initialize bt and make it focusable */
         bt.init();
+        bt.setFocusable(true);
         
         /**add bt object to boxPanel*/
         boxPanel.add(bt);
         
-        //** initialize particleFill from GasChamber */
-        bt.particleFill(0, 0);                 // AEB initialize and for the Combo
-                                              // Box listeners and uses the
-                                             // variables set by the Combo Boxes
+        /** initialize particleFill from GasChamber using variables from 
+        * combo boxes */
+        bt.particleFill(0, 0);              
         
-        
-
         /**set grid bag layout constraints*/
         c.insets = new Insets(10,10,10,10);
         c.ipadx = 500;                                              // AEB added
@@ -304,6 +302,7 @@ public class GaseousDiffusion {
                       time1 = GasChamber.time1;   
                       /** sets value at 0,1 in table to time1 */
                       table.setValueAt(time1.toString(), 0, 1);
+                      bt.requestFocus();
             }  
         });
         
@@ -366,6 +365,7 @@ public class GaseousDiffusion {
                       time2 = GasChamber.time2;
                       /** sets value at 1,1 in table to time2 */
                       table.setValueAt(time2.toString(), 1, 1);
+                      bt.requestFocus();
             }  
         });
         
@@ -416,20 +416,20 @@ public class GaseousDiffusion {
         
         /**set slider constraints*/
         slider.setSize(100,20);
-        slider.setValue(110);
+        slider.setValue(85);
         slider.setMinimum(10);
-        slider.setMaximum(200);
-        slider.setMajorTickSpacing(50);
-        slider.setMinorTickSpacing(10);
+        slider.setMaximum(160);
+        slider.setMajorTickSpacing(25);
+        slider.setMinorTickSpacing(5);
         slider.setPaintTicks(true);
         
-        /** listener to update topSpeed in GasChamber and Element */
+        /** listener to update frameRate in GasChamber */
         slider.addChangeListener(new ChangeListener(){
             @Override
             public void stateChanged(ChangeEvent e){
-                float value = slider.getValue();
-                
-                Element.setTopSpeed((value/10));
+                int value = slider.getValue();
+                bt.setFRate(value);
+                bt.requestFocus();
             }
         });
         
@@ -473,7 +473,7 @@ public class GaseousDiffusion {
             @Override
             public void actionPerformed(ActionEvent e){
                   bt.setGateOpen(true);  
-                
+                  bt.requestFocus();
             }  
         });
         
@@ -579,8 +579,8 @@ public class GaseousDiffusion {
                 clearTable(table);
                 Element.setIsWinner(false);
                 Element.setSecondWinner(false);
-                slider.setValue(110);
-                Element.setTopSpeed(10f);
+                slider.setValue(85);
+                bt.setFRate(85);
                 String choice1 = knownComboBox.getSelectedItem().toString();
                 String choice2 = unknownComboBox.getSelectedItem().toString();
                 time1 = GasChamber.time1;
@@ -589,7 +589,7 @@ public class GaseousDiffusion {
                 table.setValueAt(choice2, 1, 0);
                 table.setValueAt(time1.toString(), 0, 1);
                 table.setValueAt(time2.toString(), 1, 1);
-                
+                bt.requestFocus();
             }
         });
         
@@ -605,11 +605,11 @@ public class GaseousDiffusion {
                 mw1 = table.getValueAt(0,3).toString();
                 mw2 = table.getValueAt(1,3).toString();
                 
-                JOptionPane.showMessageDialog(null, "The Rate you entered for selection one, " + table.getValueAt(0, 0) + ", is: " + rate1 + " the answer is: " + bt.vel1 +
-                        "\nThe MW you entered is: " + mw1 + " the answer is: " + bt.mw1
-                        + "\nThe Rate you entered for selection two, " + table.getValueAt(1, 0) + ", is: " + rate2 + " the answer is: " + bt.vel2 +
-                        "\nThe MW you entered is: " + mw2 + " the answer is: " + bt.mw2);
-                                
+                JOptionPane.showMessageDialog(null, "The Rate you entered for selection one, " + table.getValueAt(0, 0) + ", is: " + rate1 + "   the answer is: " + bt.getVel1() +
+                        "\nThe MW you entered is: " + mw1 + " the answer is: " + bt.getMw1()
+                        + "\nThe Rate you entered for selection two, " + table.getValueAt(1, 0) + ", is: " + rate2 + "   the answer is: " + bt.getVel2() +
+                        "\nThe MW you entered is: " + mw2 + " the answer is: " + bt.getMw2());
+                bt.requestFocus();                
             }
         });
         
