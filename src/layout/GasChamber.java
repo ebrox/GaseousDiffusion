@@ -1,123 +1,89 @@
 /**
  * Programmers: Ed Broxson & Chase McCowan 
  * Date: 02/20/2013 
- * Purpose: Create and draw multiple particles for use 
- *          in Chemistry Diffusion example.
+ * Purpose: Create and draw multiple particles for use in Chemistry Diffusion example.
  */
 package layout;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.Timer;
 import processing.core.PApplet;
 import processing.core.PFont;
 
 public class GasChamber extends PApplet {
 
-    int numParts = 40;
-    Element[] particles = new Element[numParts];
-    int[] color1 = new int[3];
-    int[] color2 = new int[3];
-    float x, y;
-    float diameter;
-    boolean gateOpen = false;
-    int mw1, mw2;
-    static double time1, time2;
-    String gas1, gas2;
-    PFont myFont, delinFont;
-    boolean bStop;
-    float vel1, vel2;
-    int fRate = 85;
-    Timer timer;    
-    int p1, p2;
-
+    //variables
+    private boolean bStop, gateOpen;
+    private float diameter, vel1, vel2, x, y;
+    private int  fRate = 85, mw1, mw2, numParts = 40;
+    private int[] color1 = new int[3];
+    private int[] color2 = new int[3];
+    //************* AEB Change to non-static and add getters and setters ***********
+    // then change GaseousDiffusion to match the calls then add getters and setters
+    private static double time1, time2;
+    private String gas1, gas2;
+    //objects
+    private Element[] particles = new Element[numParts];
+    private PFont  delinFont, mainFont;
 
     /**
-     * method to create size of sketch and particles
-     */
-    @Override
-    public void setup() {
-        frameRate(fRate);  
-        size(775, 200);
-        myFont = createFont("sans-serif", 24);
-        delinFont = createFont("sans-serif", 14);
-        
-        /** AEB Timer to reset the particles every minute if the gate is closed
-        * this is a work around for the particles leaking out of the gate box
-        * after a couple minutes */
-//         timer = new Timer(60000, new ActionListener(){
-//             @Override
-//             public void actionPerformed(ActionEvent e){
-//                 if(!gateOpen){
-//                     particleFill(p1, p2);
-//                 }
-//             }
-//         });
-//         
-//         timer.start();
-    }
-
-    /**
-     * method to draw particles, runs continously
+     * method to draw particles and text in box, runs continously
      */
     @Override
     public void draw() {
+        // set frame rate, background and stroke colors
         frameRate(fRate);
-        int gateX = 200;
-        int gateY = 100;
-        int finishX = 750;
-        int finishY = 100;
-        int delinX = 220;
-        int delinY = 0;
-
         background(170);
+        stroke(0);
 
+        // paint gate box and text
         if (!gateOpen) {
             line(200, 0, 200, height);
             line(200, 25, 225, 25);
             line(225, 25, 225, 175);
             line(200, 175, 225, 175);
 
-            textFont(myFont);
+            textFont(mainFont);
             textAlign(CENTER, BOTTOM);
             pushMatrix();
             fill(0, 0, 255);
-            translate(gateX, gateY);
+            translate(200, 100);
             rotate(HALF_PI);
             text("Gate", 0, 0);
             popMatrix();
         }
-        
-                
-        textFont(myFont);
+
+        // paint finsh line text
+        textFont(mainFont);
         textAlign(CENTER, BOTTOM);
         pushMatrix();
         fill(0, 0, 255);
-        translate(finishX, finishY);
+        translate(750, 100);
         rotate(HALF_PI);
         text("Finish Line", 0, 0);
         popMatrix();
-        
+
+        // paint deliniation line
         textFont(delinFont);
         textAlign(CENTER, TOP);
         pushMatrix();
         fill(0, 0, 255);
-        translate(delinX, delinY);
+        translate(221, 0);
         text("-------------------------------------------------- 50 Meters ---------------------------------------------------", 265, 0);
         popMatrix();
 
-         for (int i = 0; i < numParts; i++) {
+        // update all particles when  colliding or reaching edges
+        for (int i = 0; i < numParts; i++) {
             particles[i].update();
             particles[i].checkEdges();
         }
-        stroke(0);
-        fill(175);
-        
+
+        // remove strokes for particle fill
+        noStroke();
+
+        // paint particles
         for (int j = 0; j < particles.length; j++) {
-            x = particles[j].location.x;
-            y = particles[j].location.y;
-            diameter = particles[j].diameter;
-            
+            x = particles[j].getLocation().x;
+            y = particles[j].getLocation().y;
+            diameter = particles[j].getDiameter();
 
             if (j % 2 == 0) {
                 fill(color1[0], color1[1], color1[2]);
@@ -130,7 +96,94 @@ public class GasChamber extends PApplet {
     }
 
     /**
-     * method to pause and restart the drawing of this PApplet
+     * Get color of first particle type as an array of 3 integers 0-255 each RGB
+     * format
+     */
+    public int[] getColor1() {
+        return color1;
+    }
+
+    /**
+     * Get color of second particle type as an array of 3 integers 0-255 each
+     * RGB format
+     */
+    public int[] getColor2() {
+        return color2;
+    }
+
+    /**
+     * Get the frame rate - speed the simulation moves
+     */
+    public int getFRate() {
+        return fRate;
+    }
+
+    /**
+     * Get Molecular Weight of first chosen Element
+     */
+    public int getMw1() {
+        return mw1;
+    }
+
+    /**
+     * Get Molecular Weight of second chosen Element
+     */
+    public int getMw2() {
+        return mw2;
+    }
+
+    /**
+     * Get Number of Particles in simulation
+     */
+    public int getNumParts() {
+        return numParts;
+    }
+
+    /**
+     * Get correct of Time it takes for first chosen Element to travel 50 Meters
+     */
+    public static double getTime1() {
+        return time1;
+    }
+
+    /**
+     * Get correct of Time it takes for second chosen Element to travel 50
+     * Meters
+     */
+    public static double getTime2() {
+        return time2;
+    }
+
+    /**
+     * Get velocity of first chosen Element
+     */
+    public float getVel1() {
+        return vel1;
+    }
+
+    /**
+     * Get velocity of second chosen Element
+     */
+    public float getVel2() {
+        return vel2;
+    }
+
+    /**
+     * Get value of bStop - determines Pause and Play of simulation
+     */
+    public boolean isbStop() {
+        return bStop;
+    }
+
+    /**
+     * Get value of gateOpen
+     */
+    public boolean isGateOpen() {
+        return gateOpen;
+    }
+
+    /**
+     * method to pause and restart the drawing of this PApplet simulation
      */
     @Override
     public void keyPressed() {
@@ -147,9 +200,6 @@ public class GasChamber extends PApplet {
      * simulation
      */
     public void particleFill(int part1, int part2) {
-        
-        this.p1 = part1;
-        this.p2 = part2;
 
         float diam1 = 0;
         float diam2 = 0;
@@ -259,52 +309,87 @@ public class GasChamber extends PApplet {
     }
 
     /**
-     * method to remove gate from display and start race
+     * Set value of bStop - determines Pause and Play of simulation
+     */
+    public void setbStop(boolean bStop) {
+        this.bStop = bStop;
+    }
+
+    /**
+     * Set color of first particle type as an array of 3 integers 0-255 each RGB
+     * format
+     */
+    public void setColor1(int[] color1) {
+        this.color1 = color1;
+    }
+
+    /**
+     * Set color of second particle type as an array of 3 integers 0-255 each
+     * RGB format
+     */
+    public void setColor2(int[] color2) {
+        this.color2 = color2;
+    }
+
+    /**
+     * Set frame rate - speed the simulation moves
+     */
+    public void setFRate(int fRate) {
+        this.fRate = fRate;
+    }
+
+    /**
+     * Set value of gateOpen in GasChamber and Element
      */
     public void setGateOpen(boolean gateOpen) {
         this.gateOpen = gateOpen;
         Element.setGateOpen(gateOpen);
     }
 
-    public int getFRate() {
-        return fRate;
-    }
-
-    public void setFRate(int fRate) {
-        this.fRate = fRate;
-    }
-
-    public float getVel1() {
-        return vel1;
-    }
-
-    public void setVel1(float vel1) {
-        this.vel1 = vel1;
-    }
-
-    public float getVel2() {
-        return vel2;
-    }
-
-    public void setVel2(float vel2) {
-        this.vel2 = vel2;
-    }
-
-    public int getMw1() {
-        return mw1;
-    }
-
+    /**
+     * Set Molecular Weight of first chosen Element
+     */
     public void setMw1(int mw1) {
         this.mw1 = mw1;
     }
 
-    public int getMw2() {
-        return mw2;
-    }
-
+    /**
+     * Set Molecular Weight of second chosen Element
+     */
     public void setMw2(int mw2) {
         this.mw2 = mw2;
     }
-    
-    
+
+    /**
+     * Set number of particles used in simulation
+     */
+    public void setNumParts(int numParts) {
+        this.numParts = numParts;
+    }
+
+    /**
+     * Set correct of Time it takes for first chosen Element to travel 50 Meters
+     */
+    public static void setTime1(double time1) {
+        GasChamber.time1 = time1;
+    }
+
+    /**
+     * Set correct of Time it takes for second chosen Element to travel 50
+     * Meters
+     */
+    public static void setTime2(double time2) {
+        GasChamber.time2 = time2;
+    }
+
+    /**
+     * setup size of sketch and other items that are needed before drawing
+     */
+    @Override
+    public void setup() {
+        frameRate(fRate);
+        size(775, 200);
+        mainFont = createFont("sans-serif", 24);
+        delinFont = createFont("sans-serif", 14);
+    }
 }
