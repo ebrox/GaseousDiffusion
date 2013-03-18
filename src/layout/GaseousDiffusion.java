@@ -299,7 +299,7 @@ public class GaseousDiffusion {
                       /**sets value at 0,0 in table to choice1*/
                       table.setValueAt(choice1, 0, 0);
                       /** pulls value of time1 from GasChamber */
-                      time1 = GasChamber.time1;   
+                      time1 = GasChamber.getTime1();    // AEB deal with in Merge   
                       /** sets value at 0,1 in table to time1 */
                       table.setValueAt(time1.toString(), 0, 1);
                       bt.requestFocus();
@@ -362,7 +362,7 @@ public class GaseousDiffusion {
                       /**sets value at 1,0 in table to choice2*/
                       table.setValueAt(choice2, 1, 0);
                       /** pulls value of time1 from GasChamber */  
-                      time2 = GasChamber.time2;
+                      time2 = GasChamber.getTime2();     // AEB fix with in Merge
                       /** sets value at 1,1 in table to time2 */
                       table.setValueAt(time2.toString(), 1, 1);
                       bt.requestFocus();
@@ -549,8 +549,8 @@ public class GaseousDiffusion {
             String choice1 = knownComboBox.getSelectedItem().toString();
             String choice2 = unknownComboBox.getSelectedItem().toString();
             
-            time1 = GasChamber.time1;
-            time2 = GasChamber.time2;
+            time1 = GasChamber.getTime1(); // AEB fix with in Merge
+            time2 = GasChamber.getTime2(); // AEB fix with in Merge
              
             table.setValueAt(choice1, 0, 0);
             table.setValueAt(choice2, 1, 0);
@@ -578,13 +578,13 @@ public class GaseousDiffusion {
                 unknownComboBox.setSelectedIndex(0);
                 clearTable(table);
                 Element.setIsWinner(false);
-                Element.setSecondWinner(false);
+                Element.setIsSecondWinner(false); // AEB changed due to Element change - fix in Merge
                 slider.setValue(85);
                 bt.setFRate(85);
                 String choice1 = knownComboBox.getSelectedItem().toString();
                 String choice2 = unknownComboBox.getSelectedItem().toString();
-                time1 = GasChamber.time1;
-                time2 = GasChamber.time2;
+                time1 = GasChamber.getTime1(); // AEB fix with in Merge
+                time2 = GasChamber.getTime2(); // AEB fix with in Merge
                 table.setValueAt(choice1, 0, 0);
                 table.setValueAt(choice2, 1, 0);
                 table.setValueAt(time1.toString(), 0, 1);
