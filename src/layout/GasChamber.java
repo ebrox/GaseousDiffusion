@@ -203,14 +203,15 @@ public class GasChamber extends PApplet {
 
         float diam1 = 0;
         float diam2 = 0;
-        float rate = 1f;
+        float rate = 1.0f;
+        float time = 1.0f;
 
         switch (part1) {
             case 0:
                 vel1 = rate;
                 diam1 = 2;
                 mw1 = 4;
-                time1 = 1.0;
+                time1 = time;
                 gas1 = "Helium";
                 color1[0] = 0;  // black
                 color1[1] = 0;
@@ -220,7 +221,7 @@ public class GasChamber extends PApplet {
                 vel1 = rate / sqrt(5);
                 diam1 = 5;
                 mw1 = 20;
-                time1 = 3.0;
+                time1 = time * sqrt(5);
                 gas1 = "Neon";
                 color1[0] = 0;  // green
                 color1[1] = 255;
@@ -230,7 +231,7 @@ public class GasChamber extends PApplet {
                 vel1 = rate / sqrt(10);
                 diam1 = 6;
                 mw1 = 40;
-                time1 = 6.0;
+                time1 = time * sqrt(10);
                 gas1 = "Argon";
                 color1[0] = 255;  // red
                 color1[1] = 0;
@@ -242,7 +243,7 @@ public class GasChamber extends PApplet {
                 vel2 = rate;
                 diam2 = 2;
                 mw2 = 4;
-                time2 = 1.0;
+                time2 = time;
                 gas2 = "Helium";
                 color2[0] = 255;  // white
                 color2[1] = 255;
@@ -252,7 +253,7 @@ public class GasChamber extends PApplet {
                 vel2 = rate / sqrt(5);
                 diam2 = 5;
                 mw2 = 20;
-                time2 = 3.0;
+                time2 = time * sqrt(5);
                 gas2 = "Neon";
                 color2[0] = 0;  // dk green
                 color2[1] = 100;
@@ -262,7 +263,7 @@ public class GasChamber extends PApplet {
                 vel2 = rate / sqrt(10);
                 diam2 = 6;
                 mw2 = 40;
-                time2 = 6.0;
+                time2 = time * sqrt(10);
                 gas2 = "Argon";
                 color2[0] = 100;  // blue-gray
                 color2[1] = 100;
@@ -272,7 +273,7 @@ public class GasChamber extends PApplet {
                 vel2 = rate / sqrt(20);
                 diam2 = 9;
                 mw2 = 80;
-                time2 = 9.0;
+                time2 = time * sqrt(20);
                 gas2 = "Unknown1";
                 color2[0] = 255;  // purple
                 color2[1] = 0;
@@ -282,7 +283,7 @@ public class GasChamber extends PApplet {
                 vel2 = rate / sqrt(16);
                 diam2 = 7;
                 mw2 = 64;
-                time2 = 7.0;
+                time2 = time * sqrt(16);
                 gas2 = "Unknown2";
                 color2[0] = 255;  // yellow
                 color2[1] = 255;
@@ -292,7 +293,7 @@ public class GasChamber extends PApplet {
                 vel2 = rate / sqrt(4);
                 diam2 = 4;
                 mw2 = 16;
-                time2 = 3.5;
+                time2 = time * sqrt(4);
                 gas2 = "Unknown3";
                 color2[0] = 0;  // blue
                 color2[1] = 0;

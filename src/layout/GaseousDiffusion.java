@@ -7,6 +7,7 @@ package layout;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
@@ -26,6 +27,7 @@ public class GaseousDiffusion {
     static String mw1, mw2;
     static JTable table;
     static GasChamber bt = new GasChamber();
+    static DecimalFormat format = new DecimalFormat("#,##0.000"); // AEB altered to deal with formatting
     
     public static void addComponentsToPane(Container pane) {
         if (RIGHT_TO_LEFT) {
@@ -301,7 +303,7 @@ public class GaseousDiffusion {
                       /** pulls value of time1 from GasChamber */
                       time1 = GasChamber.getTime1();    // AEB deal with in Merge   
                       /** sets value at 0,1 in table to time1 */
-                      table.setValueAt(time1.toString(), 0, 1);
+                      table.setValueAt(format.format(time1), 0, 1); // AEB altered to deal with formatting
                       bt.requestFocus();
             }  
         });
@@ -364,7 +366,7 @@ public class GaseousDiffusion {
                       /** pulls value of time1 from GasChamber */  
                       time2 = GasChamber.getTime2();     // AEB fix with in Merge
                       /** sets value at 1,1 in table to time2 */
-                      table.setValueAt(time2.toString(), 1, 1);
+                      table.setValueAt(format.format(time2), 1, 1); // AEB altered to deal with formatting
                       bt.requestFocus();
             }  
         });
@@ -554,8 +556,8 @@ public class GaseousDiffusion {
              
             table.setValueAt(choice1, 0, 0);
             table.setValueAt(choice2, 1, 0);
-            table.setValueAt(time1.toString(), 0, 1);
-            table.setValueAt(time2.toString(), 1, 1);
+            table.setValueAt(format.format(time1), 0, 1); // AEB altered to deal with formatting
+            table.setValueAt(format.format(time2), 1, 1); // AEB altered to deal with formatting
             
         //*******************CHECK ANSWER AND RESET BUTTONS****************
         
@@ -587,8 +589,8 @@ public class GaseousDiffusion {
                 time2 = GasChamber.getTime2(); // AEB fix with in Merge
                 table.setValueAt(choice1, 0, 0);
                 table.setValueAt(choice2, 1, 0);
-                table.setValueAt(time1.toString(), 0, 1);
-                table.setValueAt(time2.toString(), 1, 1);
+                table.setValueAt(format.format(time1), 0, 1); // AEB altered to deal with formatting
+                table.setValueAt(format.format(time2), 1, 1); // AEB altered to deal with formatting
                 bt.requestFocus();
             }
         });
