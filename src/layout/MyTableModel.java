@@ -1,6 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Programmers: Chase McCowan & Ed Broxson 
+ * Date: 03/13/2013 
+ * Purpose: Make a table model for use in GaseousDiffusion
  */
 package layout;
 

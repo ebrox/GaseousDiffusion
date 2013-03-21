@@ -24,8 +24,6 @@ public class Element {
     //objects
     private Element[] others;
     private PVector location, velocity;
-    //****************** Does this need to go??? **************************
-    private static JTable table;
 
     // AEB Not sure about this constructor - 
     /**

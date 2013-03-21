@@ -16,8 +16,6 @@ public class GasChamber extends PApplet {
     private int  fRate = 85, mw1, mw2, numParts = 40;
     private int[] color1 = new int[3];
     private int[] color2 = new int[3];
-    //************* AEB Change to non-static and add getters and setters ***********
-    // then change GaseousDiffusion to match the calls then add getters and setters
     private static double time1, time2;
     private String gas1, gas2;
     //objects
