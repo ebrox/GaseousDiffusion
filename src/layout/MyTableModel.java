@@ -33,7 +33,4 @@ public class MyTableModel extends DefaultTableModel {
     return columnClass != ImageIcon.class &&
       columnClass != Date.class;
   }
-  public void tableChanged(MyTableModel e){
-      
-  }
 }
