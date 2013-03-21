@@ -27,8 +27,9 @@ public class Element {
     //****************** Does this need to go??? **************************
     private static JTable table;
 
+    // AEB Not sure about this constructor - 
     /**
-     * AEB Not sure about this constructor - No Arg Constructor to create an
+     * No Arg Constructor to create an
      * Element
      */
     public Element() {
