@@ -18,21 +18,16 @@ public class GaseousDiffusion {
 
     private final static boolean shouldFill = true;
     private final static boolean RIGHT_TO_LEFT = false;
-    private static boolean bx1 = false, bx2 = false;
-    private static int box1 = 0, box2 = 0;
-    private static String comboChoice1 = null, comboChoice2 = null, periodic;
-    private static Double time1, time2;
-    private static float rate1, rate2;
-    private static String help, helpContent;
-    private static float mw1, mw2;
+    private static int height, width, box1 = 0, box2 = 0;
+    private static String periodic, help, helpContent;
+    private static double time1, time2;
+    private static float rate1, rate2, mw1, mw2;
     private static JTable table;
     private static GasChamber bt = new GasChamber();
     private static JDialog dialog, helpDialog;
     private static JLabel imageLabel;
     private static JPanel periodicPanel;
-    private static int height, width;
     private static JTextArea helpTextArea;
-    private ImageIcon psccIcon;
     private static DecimalFormat format = new DecimalFormat("#,##0.000");
 
     /**
@@ -346,7 +341,6 @@ public class GaseousDiffusion {
         knownComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                bx1 = true;
 
                 //set box1 to get the selected index 
                 box1 = knownComboBox.getSelectedIndex();
@@ -414,7 +408,6 @@ public class GaseousDiffusion {
         unknownComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                bx2 = true;
                 //set box2 to get the selected index
                 box2 = unknownComboBox.getSelectedIndex();
                 bt.particleFill(box1, box2);
