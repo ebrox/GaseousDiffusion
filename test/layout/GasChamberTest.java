@@ -57,7 +57,6 @@ public class GasChamberTest {
     @Test
     public void testGetColor1() {
         System.out.println("getColor1");
-//        GasChamber instance = new GasChamber();
         int[] expResult = {255, 0, 0};
         int[] result = gt.getColor1();
         assertArrayEquals(expResult, result);
@@ -70,7 +69,6 @@ public class GasChamberTest {
     @Test
     public void testGetColor2() {
         System.out.println("getColor2");
-//        GasChamber instance = new GasChamber();
         int[] expResult = {0, 0, 255};
         int[] result = gt.getColor2();
         assertArrayEquals(expResult, result);
@@ -96,7 +94,6 @@ public class GasChamberTest {
     @Test
     public void testGetMw1() {
         System.out.println("getMw1");
-//        GasChamber instance = new GasChamber();
         int expResult = 40;
         int result = gt.getMw1();
         assertEquals(expResult, result);
@@ -109,7 +106,6 @@ public class GasChamberTest {
     @Test
     public void testGetMw2() {
         System.out.println("getMw2");
-//        GasChamber instance = new GasChamber();
         int expResult = 16;
         int result = gt.getMw2();
         assertEquals(expResult, result);
@@ -159,7 +155,6 @@ public class GasChamberTest {
     @Test
     public void testGetVel1() {
         System.out.println("getVel1");
-//        GasChamber instance = new GasChamber();
         float expResult = 0.3162277660168379f;
         float result = gt.getVel1();
         assertEquals(expResult, result, 0.0);
@@ -172,7 +167,6 @@ public class GasChamberTest {
     @Test
     public void testGetVel2() {
         System.out.println("getVel2");
-//        GasChamber instance = new GasChamber();
         float expResult = 0.5f;
         float result = gt.getVel2();
         assertEquals(expResult, result, 0.0);
