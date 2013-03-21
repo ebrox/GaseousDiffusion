@@ -17,10 +17,10 @@ import org.junit.Test;
  * @author Ed_Acer
  */
 public class MyTableModelTest {
-    String[] colHeading = {"Chosen Molecules", "Time", "Rate (m/s)", "Molecular Weight (MW)"};
-        String[][] data = {{"", "", "", ""},
+    private String[] colHeading = {"Chosen Molecules", "Time", "Rate (m/s)", "Molecular Weight (MW)"};
+    private String[][] data = {{"", "", "", ""},
             {"", "", "", ""}};
-        JTable table = new JTable(new MyTableModel(data, colHeading));
+    private JTable table = new JTable(new MyTableModel(data, colHeading));
     
     public MyTableModelTest() {
     }
