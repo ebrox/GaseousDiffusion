@@ -202,7 +202,7 @@ public class GasChamber extends PApplet {
         float diam1 = 0;
         float diam2 = 0;
         float rate = 1.0f;
-        float time = 1.0f;
+        double time = 1.0;
 
         switch (part1) {
             case 0:

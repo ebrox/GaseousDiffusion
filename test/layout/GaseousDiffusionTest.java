@@ -1,6 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Programmers: Chase McCowan & Ed Broxson 
+ * Date: 03/21/2013 
+ * Purpose: Test GaseousDiffusion Class
  */
 package layout;
 
@@ -11,7 +12,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -57,17 +57,6 @@ public class GaseousDiffusionTest {
         System.out.println("clearTable");
         JTable table = new JTable();
         GaseousDiffusion.clearTable(table);
-
-    }
-
-    /**
-     * Test of main method, of class GaseousDiffusion.
-     */
-    @Test
-    public void testMain() {
-        System.out.println("main");
-        String[] args = null;
-        GaseousDiffusion.main(args);
 
     }
 }
