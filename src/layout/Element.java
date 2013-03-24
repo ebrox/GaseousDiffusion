@@ -24,8 +24,9 @@ public class Element {
     //objects
     private Element[] others;
     private PVector location, velocity;
+    GaseousDiffusion gd = new GaseousDiffusion();              
 
-    // AEB Not sure about this constructor - 
+    
     /**
      * No Arg Constructor to create an
      * Element
@@ -71,10 +72,12 @@ public class Element {
         } else if (x + diameter / 2 > width) {
             if (!isWinner) {
                 JOptionPane.showMessageDialog(null, "WINNER!");
+                gd.setTableTime1(id % 2);                       
                 isWinner = true;
                 winnerId = id % 2;
             } else if (isWinner && !isSecondWinner && (winnerId != (id % 2))) {
-                JOptionPane.showMessageDialog(null, "Other Winner!");
+                JOptionPane.showMessageDialog(null, "Second Winner!");
+                gd.setTableTime1(id % 2);                        
                 isSecondWinner = true;
             }
         } else if (x - diameter / 2 < 0) {

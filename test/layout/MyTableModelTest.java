@@ -1,6 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Programmers: Chase McCowan & Ed Broxson 
+ * Date: 03/21/2013 
+ * Purpose: Test MyTableModel Class
  */
 package layout;
 
