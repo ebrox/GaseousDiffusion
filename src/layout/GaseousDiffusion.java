@@ -577,7 +577,9 @@ public class GaseousDiffusion {
         checkAnswerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (table.isEditing()){
+                    table.getCellEditor().stopCellEditing();
+                }
                 //get the values from user input cells and compare them to 
                 // correct values
                 try{
