@@ -18,7 +18,7 @@ public class GaseousDiffusion {
 
     private final static boolean shouldFill = true;
     private final static boolean RIGHT_TO_LEFT = false;
-    private static int height, width, box1 = 0, box2 = 0;
+    private static int height, width, count = 0, box1 = 0, box2 = 0;
     private static String periodic, help, helpContent;
     private static double time1, time2;
     private static float rate1, rate2, mw1, mw2;
@@ -408,10 +408,12 @@ public class GaseousDiffusion {
                 + "Graham's Law and insert into table");
 
         //make table not enabled to be edited
-        table.editCellAt(0, 2);
-        table.editCellAt(0, 3);
-        table.editCellAt(1, 2);
-        table.editCellAt(1, 3);
+//        table.editCellAt(0, 2);
+//        table.editCellAt(0, 3);
+//        table.editCellAt(1, 2);
+//        table.editCellAt(1, 3);
+        table.setEnabled(false);
+        
 
         //create scrollpane for table
         jsp = new JScrollPane(table);
@@ -438,9 +440,6 @@ public class GaseousDiffusion {
 
         String choice1 = knownComboBox.getSelectedItem().toString();
         String choice2 = unknownComboBox.getSelectedItem().toString();
-
-        time1 = GasChamber.getTime1();
-        time2 = GasChamber.getTime2();
 
         table.setValueAt(choice1, 0, 0);
         table.setValueAt(choice2, 1, 0);
@@ -577,6 +576,7 @@ public class GaseousDiffusion {
         checkAnswerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //stops editing table and saves current data
                 if (table.isEditing()){
                     table.getCellEditor().stopCellEditing();
                 }
@@ -589,17 +589,6 @@ public class GaseousDiffusion {
                 mw1 = Float.parseFloat(table.getValueAt(0, 3).toString());
                 mw2 = Float.parseFloat(table.getValueAt(1, 3).toString());
                 
-                }
-                
-                catch(NumberFormatException nfe){
-                    
-                    JOptionPane.showMessageDialog(null, "Please enter a value"
-                            + " in all rate and molecular weight table cells"
-                            + " before clicking check answer button.","Answers",JOptionPane.INFORMATION_MESSAGE);
-                    
-                }
-                
-
                 correctLabel.setVisible(false);
                 correctLabel2.setVisible(false);
                 incorrectLabel.setVisible(false);
@@ -625,6 +614,17 @@ public class GaseousDiffusion {
                         + "   the answer is: " + (bt.getVel2() / .02)
                         + "\nThe MW you entered is: " + mw2 + " the answer is: "
                         + (bt.getMw2() * 1.000));
+                
+                }
+                
+                catch(NumberFormatException nfe){
+                    
+                    JOptionPane.showMessageDialog(null, "Please enter a value"
+                            + " in all rate and molecular weight table cells"
+                            + " before clicking check answer button.","Answers",JOptionPane.INFORMATION_MESSAGE);
+                    
+                }
+                
 
                 //focus on start/race box
                 bt.requestFocus();
@@ -792,8 +792,8 @@ public class GaseousDiffusion {
                 bt.setFRate(85);
                 String choice1 = knownComboBox.getSelectedItem().toString();
                 String choice2 = unknownComboBox.getSelectedItem().toString();
-                time1 = GasChamber.getTime1();
-                time2 = GasChamber.getTime2();
+                count = 0;
+                table.setEnabled(false);
                 table.setValueAt(choice1, 0, 0);
                 table.setValueAt(choice2, 1, 0);
                 correctLabel.setVisible(false);
@@ -851,12 +851,28 @@ public class GaseousDiffusion {
             time1 = GasChamber.getTime1();
             // sets value at 0,1 in table to time1  
             table.setValueAt(format.format(time1), 0, 1);
+            count++;
         }
         else{
             // pulls value of time2 from GasChamber   
             time2 = GasChamber.getTime2();
             // sets value at 1,1 in table to time2 
             table.setValueAt(format.format(time2), 1, 1);
+            count++;
+        }
+        
+        if(count == 2){
+            //enable table
+            table.setEnabled(true);
+            
+            //makes the first two cells in each row non-editable
+            table.isCellEditable(0, 0);
+            table.isCellEditable(0, 1);
+            table.isCellEditable(1, 0);
+            table.isCellEditable(1, 1);
+            
+            //set focus to table
+            table.requestFocus();
         }
     }
 }

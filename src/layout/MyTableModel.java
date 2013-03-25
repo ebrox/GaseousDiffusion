@@ -30,8 +30,11 @@ public class MyTableModel extends DefaultTableModel {
   /** Override this method to return true if cell is editable */
   @Override
   public boolean isCellEditable(int row, int column) {
-    Class columnClass = getColumnClass(column);
-    return columnClass != ImageIcon.class &&
+      if (column < 2){  
+        return false;  
+      } 
+     Class columnClass = getColumnClass(column);
+     return columnClass != ImageIcon.class &&
       columnClass != Date.class;
   }
 }
