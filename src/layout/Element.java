@@ -76,7 +76,10 @@ public class Element {
                 isWinner = true;
                 winnerId = id % 2;
             } else if (isWinner && !isSecondWinner && (winnerId != (id % 2))) {
-                JOptionPane.showMessageDialog(null, "Second Winner!");
+                JOptionPane.showMessageDialog(null, "The first particle of the "
+                        + "second Gas has crossed the finish line."
+                        + "\nEnter the rate and molecular weight for each"
+                        + " particle in the table below.");
                 gd.setTableTime1(id % 2);                        
                 isSecondWinner = true;
             }
