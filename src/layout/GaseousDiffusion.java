@@ -29,6 +29,8 @@ public class GaseousDiffusion {
     private static JPanel periodicPanel;
     private static JTextArea helpTextArea;
     private static DecimalFormat format = new DecimalFormat("#,##0.000");
+    private static DecimalFormat fiveSF = new DecimalFormat("#,##0.0000");
+    private static double t = 7.8829 + Math.random() * .0002;  // AEB
 
     /**
      * Build components for GUI and add listeners
@@ -402,16 +404,23 @@ public class GaseousDiffusion {
 
         //create table
         table = new JTable(new MyTableModel(data, colHeading));
+        
+        //keep columns from being moved around
+        table.getTableHeader().setReorderingAllowed(false);
+        
+        //set sizes of columns then keep them from being resized
+        for(int i = 0; i < 4; i++){
+            table.getColumnModel().getColumn(i).setMinWidth(242);
+            table.getColumnModel().getColumn(i).setMaxWidth(242);
+        
+        }
+        table.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 
         //make tool tip
         table.setToolTipText("Calculate rate and molecular weight using "
                 + "Graham's Law and insert into table");
 
         //make table not enabled to be edited
-//        table.editCellAt(0, 2);
-//        table.editCellAt(0, 3);
-//        table.editCellAt(1, 2);
-//        table.editCellAt(1, 3);
         table.setEnabled(false);
         
 
@@ -515,7 +524,7 @@ public class GaseousDiffusion {
         //make pauseLabel
         pauseLabel = new JLabel("**Pause and play the simulation at any time"
                 + " using spacebar.");
-        sigfigLabel = new JLabel("***Enter rate using 3 significant figures."
+        sigfigLabel = new JLabel("***Enter rate using 4 significant figures."
                 + "  Enter molecular weight using 2 significant figures.");
 
         //set font color to white
@@ -593,13 +602,13 @@ public class GaseousDiffusion {
                 correctLabel2.setVisible(false);
                 incorrectLabel.setVisible(false);
                 incorrectLabel2.setVisible(false);
-                
-                if ((rate1 < ((bt.getVel1() / .02) * 1.002) && rate1 > ((bt.getVel1() / .02) * .998)) && ((mw1 < (bt.getMw1() * 1.02) && mw1 > (bt.getMw1() * .98)))) {
+                               
+                if ((rate1 < ((bt.getVel1() * 6.343) * 1.002) && rate1 > ((bt.getVel1() * 6.343) * .998)) && ((mw1 < (bt.getMw1() * 1.02) && mw1 > (bt.getMw1() * .98)))) {
                     correctLabel.setVisible(true);
                 } else {
                     incorrectLabel.setVisible(true);
                 }
-                if ((rate2 < ((bt.getVel2() / .02) * 1.002) && rate2 > ((bt.getVel2() / .02) * .998)) && ((mw2 < (bt.getMw2() * 1.02) && mw2 > (bt.getMw2() * .98)))) {
+                if ((rate2 < ((bt.getVel2() * 6.343) * 1.002) && rate2 > ((bt.getVel2() * 6.343) * .998)) && ((mw2 < (bt.getMw2() * 1.02) && mw2 > (bt.getMw2() * .98)))) {
                     correctLabel2.setVisible(true);
                 } else {
                     incorrectLabel2.setVisible(true);
@@ -607,11 +616,11 @@ public class GaseousDiffusion {
 
                 JOptionPane.showMessageDialog(null, "The Rate you entered "
                         + "for selection one, " + table.getValueAt(0, 0)
-                        + ", is: " + rate1 + "   the answer is: " + (bt.getVel1() / .02)
+                        + ", is: " + rate1 + "   the answer is: " + format.format(bt.getVel1() * 6.34276)
                         + "\nThe MW you entered is: " + mw1 + " the answer is: "
                         + (bt.getMw1() * 1.000) + "\nThe Rate you entered for selection "
                         + "two, " + table.getValueAt(1, 0) + ", is: " + rate2
-                        + "   the answer is: " + (bt.getVel2() / .02)
+                        + "   the answer is: " + format.format(bt.getVel2() * 6.34276)
                         + "\nThe MW you entered is: " + mw2 + " the answer is: "
                         + (bt.getMw2() * 1.000));
                 
@@ -697,6 +706,7 @@ public class GaseousDiffusion {
                 //set text area to not editable
                 helpTextArea.setEditable(false);
 
+                if(helpDialog == null){
                 //make joptionpane object 
                 helpDialog = new JDialog(helpDialog, help);
 
@@ -718,6 +728,12 @@ public class GaseousDiffusion {
 
                 //make dialog visible 
                 helpDialog.setVisible(true);
+                }
+                else{
+                    helpDialog.dispose();
+                    helpDialog = null;
+                }
+                
             }
         });
         
@@ -764,6 +780,7 @@ public class GaseousDiffusion {
                 //make image label 
                 imageLabel = new JLabel(icon);
 
+                if(dialog == null){
                 //make jdialog with title 
                 dialog = new JDialog(dialog, periodic);
 
@@ -775,6 +792,11 @@ public class GaseousDiffusion {
 
                 //set dialog to visible 
                 dialog.setVisible(true);
+                }
+                else{
+                    dialog.dispose();
+                    dialog = null;
+                }
             }
         });
         
@@ -794,8 +816,18 @@ public class GaseousDiffusion {
                 String choice2 = unknownComboBox.getSelectedItem().toString();
                 count = 0;
                 table.setEnabled(false);
+                t = 7.8829 + Math.random() * .0002;  // AEB
+                
+                //stops editing table and saves current data
+                if (table.isEditing()){
+                    table.getCellEditor().stopCellEditing();
+                }
                 table.setValueAt(choice1, 0, 0);
                 table.setValueAt(choice2, 1, 0);
+                table.setValueAt("", 0, 2);
+                table.setValueAt("", 0, 3);
+                table.setValueAt("", 1, 2);
+                table.setValueAt("", 1, 3);
                 correctLabel.setVisible(false);
                 correctLabel2.setVisible(false);
                 incorrectLabel.setVisible(false);
@@ -846,19 +878,25 @@ public class GaseousDiffusion {
     }
     
     public void setTableTime1(int id){
+        
+        
         if(id == 0){
             // pulls value of time1 from GasChamber  
-            time1 = GasChamber.getTime1();
+            time1 = GasChamber.getTime1() * t;  // AEB
             // sets value at 0,1 in table to time1  
-            table.setValueAt(format.format(time1), 0, 1);
+            table.setValueAt(fiveSF.format(time1), 0, 1);
             count++;
+            
+            System.out.println("Ele 1: " + t);  // AEB
         }
         else{
             // pulls value of time2 from GasChamber   
-            time2 = GasChamber.getTime2();
+            time2 = GasChamber.getTime2() * t;
             // sets value at 1,1 in table to time2 
-            table.setValueAt(format.format(time2), 1, 1);
+            table.setValueAt(fiveSF.format(time2), 1, 1);
             count++;
+            
+            System.out.println("Ele 2: " + t);  // AEB
         }
         
         if(count == 2){
