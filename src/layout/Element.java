@@ -24,7 +24,7 @@ public class Element {
     //objects
     private Element[] others;
     private PVector location, velocity;
-    GaseousDiffusion gd = new GaseousDiffusion();              
+    private GaseousDiffusion gd = new GaseousDiffusion();              
 
     
     /**

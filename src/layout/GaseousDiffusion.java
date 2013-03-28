@@ -30,7 +30,7 @@ public class GaseousDiffusion {
     private static JTextArea helpTextArea;
     private static DecimalFormat format = new DecimalFormat("#,##0.000");
     private static DecimalFormat fiveSF = new DecimalFormat("#,##0.0000");
-    private static double t = 7.8829 + Math.random() * .0002;  // AEB
+    private static double t = 7.8829 + Math.random() * .0002;
 
     /**
      * Build components for GUI and add listeners
@@ -654,6 +654,7 @@ public class GaseousDiffusion {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                bt.requestFocus();
                 //make string title variable 
                 help = "Help Readme";
 
@@ -707,33 +708,36 @@ public class GaseousDiffusion {
                 helpTextArea.setEditable(false);
 
                 if(helpDialog == null){
-                //make joptionpane object 
-                helpDialog = new JDialog(helpDialog, help);
+                    //make joptionpane object 
+                    helpDialog = new JDialog(helpDialog, help);
 
-                //set layout for dialog 
-                helpDialog.setLayout(new BorderLayout());
+                    //set layout for dialog 
+                    helpDialog.setLayout(new BorderLayout());
 
-                //add textfield to helpDialog 
-                helpDialog.add(helpTextArea, BorderLayout.CENTER);
+                    //add textfield to helpDialog 
+                    helpDialog.add(helpTextArea, BorderLayout.CENTER);
 
-                //set dialog to resizable 
-                helpDialog.setResizable(false);
+                    //set dialog to resizable 
+                    helpDialog.setResizable(false);
 
-                //get width and height of text area 
-                int helpWidth = helpTextArea.getWidth();
-                int helpHeight = helpTextArea.getHeight();
+                    //get width and height of text area 
+                    int helpWidth = helpTextArea.getWidth();
+                    int helpHeight = helpTextArea.getHeight();
 
-                //set dialog size 
-                helpDialog.setSize(helpWidth, helpHeight);
+                    //set dialog size 
+                    helpDialog.setSize(helpWidth, helpHeight);
 
-                //make dialog visible 
-                helpDialog.setVisible(true);
+                    //make dialog visible 
+                    helpDialog.setVisible(true);
                 }
                 else{
-                    helpDialog.dispose();
-                    helpDialog = null;
+                    helpDialog.requestFocus();
                 }
                 
+                if(!helpDialog.isShowing() && helpDialog != null){
+                    //make dialog visible 
+                    helpDialog.setVisible(true);
+                }
             }
         });
         
@@ -761,6 +765,8 @@ public class GaseousDiffusion {
         periodButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
+                bt.requestFocus();
                 //make icon object and reference the periodic table image 
                 final Icon icon = new javax.swing.ImageIcon(getClass().getResource("periodictablesmall.png"));
 
@@ -781,21 +787,25 @@ public class GaseousDiffusion {
                 imageLabel = new JLabel(icon);
 
                 if(dialog == null){
-                //make jdialog with title 
-                dialog = new JDialog(dialog, periodic);
+                    //make jdialog with title 
+                    dialog = new JDialog(dialog, periodic);
 
-                //set size of dialog to match image 
-                dialog.setSize(width, height);
+                    //set size of dialog to match image 
+                    dialog.setSize(width, height);
 
-                //add imagelabel to dialog 
-                dialog.add(imageLabel);
+                    //add imagelabel to dialog 
+                    dialog.add(imageLabel);
 
-                //set dialog to visible 
-                dialog.setVisible(true);
+                    //set dialog to visible 
+                    dialog.setVisible(true);
                 }
                 else{
-                    dialog.dispose();
-                    dialog = null;
+                    dialog.requestFocus();
+                }
+                
+                if(!dialog.isShowing()){
+                    //set dialog to visible 
+                    dialog.setVisible(true);
                 }
             }
         });
@@ -816,7 +826,7 @@ public class GaseousDiffusion {
                 String choice2 = unknownComboBox.getSelectedItem().toString();
                 count = 0;
                 table.setEnabled(false);
-                t = 7.8829 + Math.random() * .0002;  // AEB
+                t = 7.8829 + Math.random() * .0002;  
                 
                 //stops editing table and saves current data
                 if (table.isEditing()){
@@ -882,12 +892,10 @@ public class GaseousDiffusion {
         
         if(id == 0){
             // pulls value of time1 from GasChamber  
-            time1 = GasChamber.getTime1() * t;  // AEB
+            time1 = GasChamber.getTime1() * t;  
             // sets value at 0,1 in table to time1  
             table.setValueAt(fiveSF.format(time1), 0, 1);
             count++;
-            
-            System.out.println("Ele 1: " + t);  // AEB
         }
         else{
             // pulls value of time2 from GasChamber   
@@ -895,8 +903,6 @@ public class GaseousDiffusion {
             // sets value at 1,1 in table to time2 
             table.setValueAt(fiveSF.format(time2), 1, 1);
             count++;
-            
-            System.out.println("Ele 2: " + t);  // AEB
         }
         
         if(count == 2){

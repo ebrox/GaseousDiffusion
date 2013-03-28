@@ -11,21 +11,6 @@ import static layout.GaseousDiffusion.addComponentsToPane;
 
 public class GaseousDiffusionDriver {
     /**
-     * Schedule a job for the event-dispatching thread: creating and showing
-     * this application's GUI.
-     */
-    public static void main(String[] args) {
-
-
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                createAndShowGUI();
-            }
-        });
-
-    }
-    /**
      * Create the GUI and display it
      */
     private static void createAndShowGUI() {
@@ -46,8 +31,26 @@ public class GaseousDiffusionDriver {
 
         //set window size
         frame.setSize(1000, 600);
+        
+        //center the window
+        frame.setLocationRelativeTo(null);
 
         //display the window
         frame.setVisible(true);
+    }
+        /**
+     * Schedule a job for the event-dispatching thread: creating and showing
+     * this application's GUI.
+     */
+    public static void main(String[] args) {
+
+
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                createAndShowGUI();
+            }
+        });
+
     }
 }
