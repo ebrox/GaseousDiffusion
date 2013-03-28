@@ -887,6 +887,9 @@ public class GaseousDiffusion {
         }
     }
     
+    /**
+     * set time values in table after particles have passed finish line 
+     */
     public void setTableTime1(int id){
         
         
