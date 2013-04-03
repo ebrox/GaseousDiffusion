@@ -18,14 +18,14 @@ public class GaseousDiffusion {
 
     private final static boolean shouldFill = true;
     private final static boolean RIGHT_TO_LEFT = false;
-    private static int height, width, count = 0, box1 = 0, box2 = 0;
-    private static String periodic, help, helpContent;
+    private static int height, width, grahamIconWidth,grahamIconHeight,count = 0, box1 = 0, box2 = 0;
+    private static String periodic, help, helpContent,grahamTitle;
     private static double time1, time2;
     private static float rate1, rate2, mw1, mw2;
     protected static JTable table;
     private static GasChamber bt = new GasChamber();
-    private static JDialog dialog, helpDialog;
-    private static JLabel imageLabel;
+    private static JDialog dialog, helpDialog, grahamDialog;
+    private static JLabel imageLabel,grahamImageLabel,grahamLabel;
     private static JPanel periodicPanel;
     private static JTextArea helpTextArea;
     private static DecimalFormat format = new DecimalFormat("#,##0.000");
@@ -42,9 +42,9 @@ public class GaseousDiffusion {
         //declare variables 
         JPanel periodHelpPanel, knownComboPanel, unknownComboPanel, sliderPanel,
                 tablePanel, boxPanel, checkResetButtonPanel, resultPanel, 
-                correctPanel, pauseLabelPanel;
+                correctPanel, pauseLabelPanel,grahamButtonPanel,periodPanel,helpPanel;
         JButton periodButton, helpButton, goButton,
-                resetButton, checkAnswerButton;
+                resetButton, checkAnswerButton,grahamButton;
         JLabel gasDiffuseLabel, enterLabel, knownComboBoxLabel,
                 unknownComboBoxLabel, tempLabel, pauseLabel, sigfigLabel;
         final JLabel correctLabel, correctLabel2, incorrectLabel, incorrectLabel2;
@@ -52,6 +52,7 @@ public class GaseousDiffusion {
         final JComboBox knownComboBox, unknownComboBox;
         JList <String> knownList, unknownList;
         final JSlider slider;
+        final JPanel grahamPanel;
 
         //make raisedBevel border 
         Border raisedBevel = BorderFactory.createRaisedSoftBevelBorder();
@@ -95,13 +96,13 @@ public class GaseousDiffusion {
         //add panel and contraints to pane 
         pane.add(gasDiffuseLabel, c);
 
-        ///******PERIODIC TABLE BUTTON AND HELP BUTTON***************
+        ///******GRAHAMS LAW, PERIODIC TABLE, AND HELP BUTTONS***************
 
         //make grid bag constraints object 
         GridBagConstraints periodicGBC = new GridBagConstraints();
 
-        //panel for periodButton and helpButton 
-        periodHelpPanel = new JPanel();
+        //panel for periodButton, grahamButton, and helpButton 
+        periodHelpPanel = new JPanel(new BorderLayout(10,10));
 
         //set panel// color 
         periodHelpPanel.setBackground(new Color(203, 228, 38));
@@ -112,6 +113,27 @@ public class GaseousDiffusion {
         //make buttons 
         periodButton = new JButton("Periodic Table");
         helpButton = new JButton("Help");
+        grahamButton = new JButton("Graham's Law");
+        
+        //make panels for each button
+        periodPanel = new JPanel();
+        helpPanel = new JPanel();
+        grahamButtonPanel = new JPanel();
+        
+        //set background colors of panels
+        periodPanel.setBackground(new Color(203, 228, 38));
+        helpPanel.setBackground(new Color(203, 228, 38));
+        grahamButtonPanel.setBackground(new Color(203, 228, 38));
+        
+        //add buttons to panels
+        grahamButtonPanel.add(grahamButton, BorderLayout.WEST);
+        periodPanel.add(periodButton, BorderLayout.CENTER);
+        helpPanel.add(helpButton, BorderLayout.EAST);
+        
+        //add panels to periodHelpPanel
+        periodHelpPanel.add(grahamButtonPanel, BorderLayout.WEST);
+        periodHelpPanel.add(periodPanel, BorderLayout.CENTER);
+        periodHelpPanel.add(helpPanel, BorderLayout.EAST);
 
         //set grid bag layout constraints 
         //set fill 
@@ -124,8 +146,11 @@ public class GaseousDiffusion {
         periodicGBC.weightx = 0.5;
 
         //set grid position 
-        periodicGBC.gridx = 9;
+        periodicGBC.gridx = 4;
         periodicGBC.gridy = 0;
+        
+        //set the gridwidth to fill to the last item
+        periodicGBC.gridwidth = GridBagConstraints.REMAINDER;
 
         //set height and width of grid cell 
         periodicGBC.ipadx = 0;
@@ -133,10 +158,6 @@ public class GaseousDiffusion {
 
         //set anchor point within cell 
         periodicGBC.anchor = GridBagConstraints.EAST;
-
-        //add buttons to panel 
-        periodHelpPanel.add(periodButton);
-        periodHelpPanel.add(helpButton);
 
         //add panel and contraints to pane 
         pane.add(periodHelpPanel, periodicGBC);
@@ -306,7 +327,7 @@ public class GaseousDiffusion {
         slider.setBackground(new Color(12, 66, 116));
 
         //make temperature label
-        tempLabel = new JLabel("< - Temperature + >");
+        tempLabel = new JLabel("      < - Temperature + >");
 
         //set font for label
         tempLabel.setFont(new Font("Verdana", Font.BOLD, 15));
@@ -328,10 +349,10 @@ public class GaseousDiffusion {
 
         //set grid bag layout constraints
         tempGBC.fill = GridBagConstraints.HORIZONTAL;
-        tempGBC.insets = new Insets(0, 10, 0, 0);
+        tempGBC.insets = new Insets(0, 0, 0, 0);
         tempGBC.weightx = 150;
-        tempGBC.gridwidth = 1;
-        tempGBC.gridx = 2;
+        tempGBC.gridwidth = 3;
+        tempGBC.gridx = 4;
         tempGBC.gridy = 3;
         tempGBC.ipadx = 0;
         tempGBC.ipady = 0;
@@ -361,10 +382,11 @@ public class GaseousDiffusion {
         goButton.setForeground(Color.darkGray);
 
         //set border for button
-        goButton.setBorder(raisedBevel);
+        goButton.setBorder(raisedBevel);    
 
         //set grid bag layout constraints
-        goGBC.insets = new Insets(0, 0, 0, 30);
+        goGBC.insets = new Insets(0, 0, 0, 0);
+        goGBC.anchor = GridBagConstraints.CENTER;
         goGBC.fill = GridBagConstraints.VERTICAL;
         goGBC.weightx = 50;
         goGBC.weighty = 0;
@@ -493,7 +515,7 @@ public class GaseousDiffusion {
         correctGBC.anchor = GridBagConstraints.WEST;
         correctGBC.insets = new Insets(0, 20, 0, 0);
         correctGBC.weightx = 1;
-        correctGBC.gridx = 2;
+        correctGBC.gridx = 4;
         correctGBC.gridy = 7;
         correctGBC.gridwidth = 1;
         correctGBC.ipadx = 0;
@@ -649,6 +671,55 @@ public class GaseousDiffusion {
             }
         });
         
+        //create a listener for the periodic button 
+        grahamButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                bt.requestFocus();
+                //make icon object and reference the periodic table image 
+                final Icon grahamIcon = new javax.swing.ImageIcon(getClass().getResource("grahamcalculationsmall.png"));
+
+                //make string title variable 
+                grahamTitle = "Graham's Law";
+
+                //make width and height the icon's width and height 
+                grahamIconWidth = grahamIcon.getIconWidth();
+                grahamIconHeight = grahamIcon.getIconHeight();
+
+                //make jpanel for periodic table image 
+                JPanel grahamPanel = new JPanel();
+
+                //set size of periodicPanel to match image 
+                grahamPanel.setSize(grahamIconWidth, grahamIconHeight);
+
+                //make image label 
+                grahamImageLabel = new JLabel(grahamIcon);
+
+                if(grahamDialog == null){
+                    //make jdialog with title 
+                    grahamDialog = new JDialog(grahamDialog, grahamTitle);
+
+                    //set size of dialog to match image 
+                    grahamDialog.setSize(grahamIconWidth, grahamIconHeight);
+
+                    //add imagelabel to dialog 
+                    grahamDialog.add(grahamImageLabel);
+
+                    //set dialog to visible 
+                    grahamDialog.setVisible(true);
+                }
+                else{
+                    grahamDialog.requestFocus();
+                }
+                
+                if(!grahamDialog.isShowing()){
+                    //set dialog to visible 
+                    grahamDialog.setVisible(true);
+                }
+            }
+        });
+        
         //create a listener for the help button 
         helpButton.addActionListener(new ActionListener() {
             @Override
@@ -678,7 +749,7 @@ public class GaseousDiffusion {
                         + "button. If the answers are correct you'll see "
                         + "\n'Correct' show if the answers are incorrect "
                         + "you'll\nhave the chance to change your answers and "
-                        + "\nrecheck 2 more times.\n\nGood Luck!";
+                        + "\nrecheck again.\n\nGood Luck!";
 
                 //make text field for content 
                 helpTextArea = new JTextArea(helpContent);
