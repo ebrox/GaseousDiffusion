@@ -59,4 +59,16 @@ public class GaseousDiffusionTest {
         GaseousDiffusion.clearTable(table);
 
     }
+
+    /**
+     * Test of setTableTime1 method, of class GaseousDiffusion.
+     */
+    @Test
+    public void testSetTableTime1() {
+        System.out.println("setTableTime1");
+        int id = 0;
+        GaseousDiffusion instance = new GaseousDiffusion();
+        instance.setTableTime1(id);
+
+    }
 }
