@@ -14,7 +14,7 @@ import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class GaseousDiffusion {
+public class GaseousDiffusion extends JApplet{
 
     private final static boolean shouldFill = true;
     private final static boolean RIGHT_TO_LEFT = false;
@@ -31,11 +31,36 @@ public class GaseousDiffusion {
     private static DecimalFormat format = new DecimalFormat("#,##0.000");
     private static DecimalFormat fiveSF = new DecimalFormat("#,##0.0000");
     private static double t = 7.8829 + Math.random() * .0002;
+    
+    private static JComboBox knownComboBox, unknownComboBox;                    
+    private static JSlider slider;                                              
+    private static JLabel correctLabel, correctLabel2, incorrectLabel, incorrectLabel2; 
+    
+    public static void main(String[] args){
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setIconImage(new ImageIcon("src/layout/pscclogo.jpg").getImage());
+        frame.setResizable(false);
+        frame.setSize(1000, 600);
+        frame.setLocationRelativeTo(null);
+        JApplet applet = new GaseousDiffusion();
+        applet.setPreferredSize(new Dimension(1000, 600));
+        applet.setBackground(new Color(12, 66, 116));
+        applet.init();
+        frame.getContentPane().add(applet);
+        frame.pack();
+        frame.setVisible(true);
+    }
+    
+    public GaseousDiffusion(){
+    }
 
     /**
      * Build components for GUI and add listeners
      */
-    public static void addComponentsToPane(Container pane) {
+    @Override
+    public void init() {
+        JPanel pane = new JPanel();                                             
         if (RIGHT_TO_LEFT) {
             pane.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
         }
@@ -47,11 +72,8 @@ public class GaseousDiffusion {
                 resetButton, checkAnswerButton,grahamButton;
         JLabel gasDiffuseLabel, enterLabel, knownComboBoxLabel,
                 unknownComboBoxLabel, tempLabel, pauseLabel, sigfigLabel;
-        final JLabel correctLabel, correctLabel2, incorrectLabel, incorrectLabel2;
         JScrollPane jsp;
-        final JComboBox knownComboBox, unknownComboBox;
         JList <String> knownList, unknownList;
-        final JSlider slider;
         final JPanel grahamPanel;
 
         //make raisedBevel border 
@@ -176,6 +198,8 @@ public class GaseousDiffusion {
         //initialize bt and make it focusable  
         bt.init();
         bt.setFocusable(true);
+        Dimension dim = new Dimension(775, 200);                                
+        bt.setPreferredSize(dim);                                               
 
         //add bt object to boxPanel 
         boxPanel.add(bt);
@@ -545,7 +569,7 @@ public class GaseousDiffusion {
         
         //make pauseLabel
         pauseLabel = new JLabel("**Pause and play the simulation at any time"
-                + " using spacebar.");
+                + " using spacebar or left clicking in the gray box.");
         sigfigLabel = new JLabel("***Enter rate using 4 significant figures."
                 + "  Enter molecular weight using 2 significant figures.");
 
@@ -945,6 +969,8 @@ public class GaseousDiffusion {
                 bt.requestFocus();
             }
         });
+        
+        getContentPane().add(pane);
     }
 
     /**
@@ -992,5 +1018,45 @@ public class GaseousDiffusion {
             //set focus to table
             table.requestFocus();
         }
+    }
+    
+    @Override
+    public void start(){
+
+        bt.setGateOpen(false);
+        knownComboBox.setSelectedIndex(0);
+        unknownComboBox.setSelectedIndex(0);
+        clearTable(table);
+        Element.setIsWinner(false);
+        Element.setIsSecondWinner(false);
+        slider.setValue(85);
+        bt.setFRate(85);
+        String choice1 = knownComboBox.getSelectedItem().toString();
+        String choice2 = unknownComboBox.getSelectedItem().toString();
+        count = 0;
+        table.setEnabled(false);
+        t = 7.8829 + Math.random() * .0002;  
+
+        //stops editing table and saves current data
+        if (table.isEditing()){
+            table.getCellEditor().stopCellEditing();
+        }
+        table.setValueAt(choice1, 0, 0);
+        table.setValueAt(choice2, 1, 0);
+        table.setValueAt("", 0, 2);
+        table.setValueAt("", 0, 3);
+        table.setValueAt("", 1, 2);
+        table.setValueAt("", 1, 3);
+        correctLabel.setVisible(false);
+        correctLabel2.setVisible(false);
+        incorrectLabel.setVisible(false);
+        incorrectLabel2.setVisible(false);
+        bt.requestFocus();
+    }
+    
+    @Override
+    public void destroy(){
+        bt.destroy();
+        this.destroy();
     }
 }

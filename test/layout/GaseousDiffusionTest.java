@@ -41,13 +41,13 @@ public class GaseousDiffusionTest {
     /**
      * Test of addComponentsToPane method, of class GaseousDiffusion.
      */
-    @Test
-    public void testAddComponentsToPane() {
-        System.out.println("addComponentsToPane");
-        Container pane = new Container();
-        GaseousDiffusion.addComponentsToPane(pane);
-
-    }
+//    @Test
+//    public void testAddComponentsToPane() {
+//        System.out.println("addComponentsToPane");
+//        Container pane = new Container();
+//        GaseousDiffusion.addComponentsToPane(pane);
+//
+//    }
 
     /**
      * Test of clearTable method, of class GaseousDiffusion.
