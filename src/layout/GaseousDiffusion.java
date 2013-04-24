@@ -36,25 +36,27 @@ public class GaseousDiffusion extends JApplet{
     private static JSlider slider;                                              
     private static JLabel correctLabel, correctLabel2, incorrectLabel, incorrectLabel2; 
     
-    public static void main(String[] args){
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setIconImage(new ImageIcon("src/layout/pscclogo.jpg").getImage());
-        frame.setResizable(false);
-        frame.setSize(1000, 600);
-        frame.setLocationRelativeTo(null);
-        JApplet applet = new GaseousDiffusion();
-        applet.setPreferredSize(new Dimension(1000, 600));
-        applet.setBackground(new Color(12, 66, 116));
-        applet.init();
-        frame.getContentPane().add(applet);
-        frame.pack();
-        frame.setVisible(true);
-    }
-    
+
     public GaseousDiffusion(){
     }
 
+        /**
+     * clears table of user input data
+     */
+    public static void clearTable(final JTable table) {
+        for (int i = 0; i < table.getRowCount(); i++) {
+            for (int j = 0; j < table.getColumnCount(); j++) {
+                table.setValueAt("", i, j);
+            }
+        }
+    }
+    
+        @Override
+    public void destroy(){
+        bt.destroy();
+        this.destroy();
+    }
+    
     /**
      * Build components for GUI and add listeners
      */
@@ -973,15 +975,20 @@ public class GaseousDiffusion extends JApplet{
         getContentPane().add(pane);
     }
 
-    /**
-     * clears table of user input data
-     */
-    public static void clearTable(final JTable table) {
-        for (int i = 0; i < table.getRowCount(); i++) {
-            for (int j = 0; j < table.getColumnCount(); j++) {
-                table.setValueAt("", i, j);
-            }
-        }
+    public static void main(String[] args){
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setIconImage(new ImageIcon("src/layout/pscclogo.jpg").getImage());
+        frame.setResizable(false);
+        frame.setSize(1000, 600);
+        frame.setLocationRelativeTo(null);
+        JApplet applet = new GaseousDiffusion();
+        applet.setPreferredSize(new Dimension(1000, 600));
+        applet.setBackground(new Color(12, 66, 116));
+        applet.init();
+        frame.getContentPane().add(applet);
+        frame.pack();
+        frame.setVisible(true);
     }
     
     /**
@@ -1052,11 +1059,5 @@ public class GaseousDiffusion extends JApplet{
         incorrectLabel.setVisible(false);
         incorrectLabel2.setVisible(false);
         bt.requestFocus();
-    }
-    
-    @Override
-    public void destroy(){
-        bt.destroy();
-        this.destroy();
     }
 }
