@@ -5,18 +5,15 @@
  */
 package layout;
 
-import java.awt.Container;
 import javax.swing.JTable;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
-/**
- *
- * @author Ed_Acer
- */
+
 public class GaseousDiffusionTest {
     
     public GaseousDiffusionTest() {
@@ -39,17 +36,6 @@ public class GaseousDiffusionTest {
     }
 
     /**
-     * Test of addComponentsToPane method, of class GaseousDiffusion.
-     */
-//    @Test
-//    public void testAddComponentsToPane() {
-//        System.out.println("addComponentsToPane");
-//        Container pane = new Container();
-//        GaseousDiffusion.addComponentsToPane(pane);
-//
-//    }
-
-    /**
      * Test of clearTable method, of class GaseousDiffusion.
      */
     @Test
@@ -57,6 +43,39 @@ public class GaseousDiffusionTest {
         System.out.println("clearTable");
         JTable table = new JTable();
         GaseousDiffusion.clearTable(table);
+
+    }
+
+    /**
+     * Test of destroy method, of class GaseousDiffusion.
+     */
+    @Test
+    public void testDestroy() {
+        System.out.println("destroy");
+        GaseousDiffusion instance = new GaseousDiffusion();
+        instance.destroy();
+
+    }
+
+    /**
+     * Test of init method, of class GaseousDiffusion.
+     */
+    @Test
+    public void testInit() {
+        System.out.println("init");
+        GaseousDiffusion instance = new GaseousDiffusion();
+        instance.init();
+
+    }
+
+    /**
+     * Test of main method, of class GaseousDiffusion.
+     */
+    @Test
+    public void testMain() {
+        System.out.println("main");
+        String[] args = null;
+        GaseousDiffusion.main(args);
 
     }
 
@@ -69,6 +88,17 @@ public class GaseousDiffusionTest {
         int id = 0;
         GaseousDiffusion instance = new GaseousDiffusion();
         instance.setTableTime1(id);
+
+    }
+
+    /**
+     * Test of start method, of class GaseousDiffusion.
+     */
+    @Test
+    public void testStart() {
+        System.out.println("start");
+        GaseousDiffusion instance = new GaseousDiffusion();
+        instance.start();
 
     }
 }
