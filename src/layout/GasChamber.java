@@ -196,6 +196,9 @@ public class GasChamber extends PApplet {
         }
     }
     
+    /**
+     * method to pause and restart the drawing using mouse clicks
+     */
     @Override
     public void mousePressed() {
         bStop = !bStop;
