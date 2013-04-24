@@ -131,7 +131,7 @@ public class GasChamberTest {
     @Test
     public void testGetTime1() {
         System.out.println("getTime1");
-        double expResult = 6.0;
+        double expResult = 3.16;
         double result = GasChamber.getTime1();
         assertEquals(expResult, result, 0.0);
  
@@ -143,7 +143,7 @@ public class GasChamberTest {
     @Test
     public void testGetTime2() {
         System.out.println("getTime2");
-        double expResult = 3.5;
+        double expResult = 2.0;
         double result = GasChamber.getTime2();
         assertEquals(expResult, result, 0.0);
 
@@ -208,6 +208,16 @@ public class GasChamberTest {
         GasChamber instance = new GasChamber();
         instance.keyPressed();
         
+    }
+    
+    /**
+     * Test of mousePressed method, of class GasChamber.
+     */
+    @Test
+    public void testMousePressed(){
+        System.out.println("mousePressed");
+        GasChamber instance = new GasChamber();
+        instance.mousePressed();
     }
 
     /**
